@@ -23,6 +23,12 @@ pipeline {
       }
     }
     stage('Static Code Analysis') {
+agent {
+        docker {
+          image 'maven:3.9.6-openjdk-17' // Use Maven with Java 17 for SonarQube
+          args '--user root -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/root/.m2' // Mount Maven cache
+        }
+      }
       environment {
         SONAR_URL = "http://172.28.117.250:9000"
       }
